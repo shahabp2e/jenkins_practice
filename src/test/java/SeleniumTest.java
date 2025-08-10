@@ -12,7 +12,7 @@ import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(AllureJunit5.class) // class level pe laga do
-public class Seleniumtest {
+public class SeleniumTest {
 
     @Test  // method ko test declare karo
     public void googleSearchTest() {
@@ -28,3 +28,4 @@ public class Seleniumtest {
         driver.quit();
     }
 }
+
