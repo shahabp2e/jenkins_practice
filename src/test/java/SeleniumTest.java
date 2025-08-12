@@ -16,25 +16,22 @@ public class SeleniumTest {
 
     private WebDriver driver;
     private Path tempUserDataDir;
+    
+@BeforeEach
+public void setUp() {
+    ChromeOptions options = new ChromeOptions();
+    // options.addArguments("--headless=new");
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
+    options.addArguments("--disable-gpu");
+    options.addArguments("--remote-allow-origins=*");
 
-    @BeforeEach
-    public void setUp() throws IOException {
-        ChromeOptions options = new ChromeOptions();
+    // Temporarily comment this out and try if it works without user-data-dir
+    // tempUserDataDir = Files.createTempDirectory("chrome-user-data");
+    // options.addArguments("--user-data-dir=" + tempUserDataDir.toAbsolutePath().toString());
 
-        // Headless mode agar chahiye to uncomment karein
-        // options.addArguments("--headless=new");
-
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--disable-gpu");
-        options.addArguments("--remote-allow-origins=*");
-
-        // Har test run ke liye unique user data directory create karen
-        tempUserDataDir = Files.createTempDirectory("chrome-user-data");
-        options.addArguments("--user-data-dir=" + tempUserDataDir.toAbsolutePath().toString());
-
-        driver = new ChromeDriver(options);
-    }
+    driver = new ChromeDriver(options);
+}
 
     @Test
     public void googleSearchTest() {
