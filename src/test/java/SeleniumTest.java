@@ -16,22 +16,22 @@ public class SeleniumTest {
 
     private WebDriver driver;
     private Path tempUserDataDir;
-    
-@BeforeEach
-public void setUp() {
-    ChromeOptions options = new ChromeOptions();
-    // options.addArguments("--headless=new");
-    options.addArguments("--no-sandbox");
-    options.addArguments("--disable-dev-shm-usage");
-    options.addArguments("--disable-gpu");
-    options.addArguments("--remote-allow-origins=*");
 
-    // Temporarily comment this out and try if it works without user-data-dir
-    // tempUserDataDir = Files.createTempDirectory("chrome-user-data");
-    // options.addArguments("--user-data-dir=" + tempUserDataDir.toAbsolutePath().toString());
+    @BeforeEach
+    public void setUp() throws IOException {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--remote-allow-origins=*");
 
-    driver = new ChromeDriver(options);
-}
+        // Create unique temporary user data directory to avoid conflicts
+        tempUserDataDir = Files.createTempDirectory("chrome-user-data");
+        options.addArguments("--user-data-dir=" + tempUserDataDir.toAbsolutePath().toString());
+
+        driver = new ChromeDriver(options);
+    }
 
     @Test
     public void googleSearchTest() {
@@ -45,15 +45,16 @@ public void setUp() {
         if (driver != null) {
             driver.quit();
         }
-        // Temporary user data directory ko delete karen
+        // Clean up the temp user data directory after test
         if (tempUserDataDir != null && Files.exists(tempUserDataDir)) {
             deleteDirectoryRecursively(tempUserDataDir);
         }
     }
 
+    // Helper method to recursively delete temp directory
     private void deleteDirectoryRecursively(Path path) throws IOException {
         Files.walk(path)
-                .sorted((a, b) -> b.compareTo(a))  // children pehle delete karein
+                .sorted((a, b) -> b.compareTo(a))  // delete children first
                 .forEach(p -> {
                     try {
                         Files.delete(p);
