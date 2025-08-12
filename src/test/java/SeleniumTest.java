@@ -43,18 +43,20 @@ public class SeleniumTest {
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.titleContains("Shahab"));
 
-        assertTrue(driver.getTitle().contains("Shahab"), "Page title should contain 'Shahab'");
+        assertTrue(driver.getTitle().contains("Shahab"), 
+                "Page title should contain 'Shahab'");
     }
 
     @AfterEach
     public void tearDown(TestInfo testInfo) {
         if (driver != null) {
             try {
-                takeScreenshot(testInfo.getDisplayName()); // always capture
+                takeScreenshot(testInfo.getDisplayName());
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                driver.quit();
             }
-            driver.quit();
         }
     }
 
