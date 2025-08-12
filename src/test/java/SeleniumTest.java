@@ -1,6 +1,8 @@
+import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -9,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+@ExtendWith(AllureJunit5.class)
 public class SeleniumTest {
 
     private WebDriver driver;
@@ -34,7 +37,7 @@ public class SeleniumTest {
     public void googleSearchTest() {
         driver.get("https://www.google.com");
         System.out.println("Title is: " + driver.getTitle());
-        // Add your assertions here
+        // Add your assertions here if needed
     }
 
     @AfterEach
@@ -51,14 +54,13 @@ public class SeleniumTest {
     // Helper method to recursively delete temp directory
     private void deleteDirectoryRecursively(Path path) throws IOException {
         Files.walk(path)
-            .sorted((a, b) -> b.compareTo(a))  // delete children first
-            .forEach(p -> {
-                try {
-                    Files.delete(p);
-                } catch (IOException e) {
-                    // Log error if needed
-                    e.printStackTrace();
-                }
-            });
+                .sorted((a, b) -> b.compareTo(a))  // delete children first
+                .forEach(p -> {
+                    try {
+                        Files.delete(p);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 }
