@@ -1,7 +1,5 @@
 import io.qameta.allure.Attachment;
-import io.qameta.allure.junit5.AllureJUnit5;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -13,7 +11,6 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ExtendWith(AllureJUnit5.class)
 public class SeleniumTest {
 
     WebDriver driver;
@@ -43,7 +40,7 @@ public class SeleniumTest {
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.titleContains("Shahab"));
 
-        assertTrue(driver.getTitle().contains("Shahab"), 
+        assertTrue(driver.getTitle().contains("Shahab"),
                 "Page title should contain 'Shahab'");
     }
 
