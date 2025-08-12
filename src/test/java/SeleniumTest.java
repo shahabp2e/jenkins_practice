@@ -26,9 +26,9 @@ public class SeleniumTest {
         options.addArguments("--disable-gpu");
         options.addArguments("--remote-allow-origins=*");
 
-        // Create unique temporary user data directory to avoid conflicts
-        tempUserDataDir = Files.createTempDirectory("chrome-user-data");
-        options.addArguments("--user-data-dir=" + tempUserDataDir.toAbsolutePath().toString());
+        // // Create unique temporary user data directory to avoid conflicts
+        // tempUserDataDir = Files.createTempDirectory("chrome-user-data");
+        // options.addArguments("--user-data-dir=" + tempUserDataDir.toAbsolutePath().toString());
 
         driver = new ChromeDriver(options);
     }
@@ -64,3 +64,4 @@ public class SeleniumTest {
                 });
     }
 }
+
