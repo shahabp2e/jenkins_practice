@@ -1,5 +1,5 @@
 import io.qameta.allure.Attachment;
-import io.qameta.allure.junit5.AllureJunit5;
+import io.qameta.allure.junit5.AllureJUnit5;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.*;
@@ -8,18 +8,23 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ExtendWith(AllureJunit5.class)
+@ExtendWith(AllureJUnit5.class)
 public class SeleniumTest {
 
     WebDriver driver;
 
+    @BeforeAll
+    static void setupClass() {
+        WebDriverManager.chromedriver().setup();
+    }
+
     @BeforeEach
     public void setUp() {
-        WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
@@ -45,8 +50,7 @@ public class SeleniumTest {
     public void tearDown(TestInfo testInfo) {
         if (driver != null) {
             try {
-                // Always take screenshot (you can change to only on failure)
-                takeScreenshot(testInfo.getDisplayName());
+                takeScreenshot(testInfo.getDisplayName()); // always capture
             } catch (Exception e) {
                 e.printStackTrace();
             }
