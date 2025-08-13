@@ -84,7 +84,6 @@
                     <systemPropertyVariables>
                         <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
                     </systemPropertyVariables>
-                  <ignoreFailures>true</ignoreFailures>
                 </configuration>
          
             </plugin>
