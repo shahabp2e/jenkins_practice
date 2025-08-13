@@ -84,11 +84,9 @@
                     <systemPropertyVariables>
                         <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
                     </systemPropertyVariables>
+                  <ignoreFailures>true</ignoreFailures>
                 </configuration>
-               <configuration>
-                <!-- Ignores test failures so build passes -->
-                <ignoreFailures>true</ignoreFailures>
-            </configuration>
+         
             </plugin>
 
             <!-- Allure Maven Plugin -->
