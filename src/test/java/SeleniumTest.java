@@ -1,15 +1,21 @@
+import io.qameta.allure.Allure;
 import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(AllureJunit5.class)
 public class SeleniumTest {
@@ -33,18 +39,31 @@ public class SeleniumTest {
         driver = new ChromeDriver(options);
     }
 
+    // ✅ Passed test
     @Test
     public void googleSearchTest() {
         driver.get("https://www.google.com");
-        System.out.println("Title is: " + driver.getTitle());
-        // Add your assertions here if needed
+        assertTrue(driver.getTitle().contains("Google"), "Title should contain 'Google'");
+    }
+
+    // ❌ Failing test
+    @Test
+    public void failingTestExample() {
+        driver.get("https://www.google.com");
+        // Intentionally fail the test
+        assertTrue(driver.getTitle().contains("Bing"), "Title should contain 'Bing'");
     }
 
     @AfterEach
     public void tearDown() throws IOException {
         if (driver != null) {
+            // Capture screenshot for Allure
+            Allure.addAttachment("Screenshot", new ByteArrayInputStream(
+                    ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)
+            ));
             driver.quit();
         }
+
         // Clean up the temp user data directory after test
         if (tempUserDataDir != null && Files.exists(tempUserDataDir)) {
             deleteDirectoryRecursively(tempUserDataDir);
