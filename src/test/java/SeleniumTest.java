@@ -40,6 +40,15 @@ public class SeleniumTest {
         // Add your assertions here if needed
     }
 
+    // New test case added
+    @Test
+    public void exampleDotComTest() {
+        driver.get("https://example.com");
+        System.out.println("Title is: " + driver.getTitle());
+        assert driver.getTitle().equals("Example Domain") 
+            : "Title did not match!";
+    }
+
     @AfterEach
     public void tearDown() throws IOException {
         if (driver != null) {
