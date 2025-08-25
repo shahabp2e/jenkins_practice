@@ -88,7 +88,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-public class Enquirry {
+ @ExtendWith(AllureJunit5.class)
+   public class SeleniumTest{
 
     // CMS driver (used by your original 4 tests)
     WebDriver driver;
@@ -364,4 +365,5 @@ public class Enquirry {
             websiteDriver.quit();
         }
     }}
+
 
