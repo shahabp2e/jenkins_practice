@@ -1,12 +1,7 @@
-import io.qameta.allure.Allure;
-import io.qameta.allure.Description;
-import io.qameta.allure.Step;
-import io.qameta.allure.junit5.AllureJunit5;
+import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.*;
 
 @ExtendWith(AllureJunit5.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -16,49 +11,43 @@ public class SeleniumTest {
 
     @BeforeEach
     public void setUp() {
-        ChromeOptions options = new ChromeOptions();
-        String mode = System.getProperty("mode", "head").toLowerCase();
-
-        if (mode.equals("headless")) {
-            options.addArguments("--headless=new", "--disable-gpu");
-        }
-
-        options.addArguments("--no-sandbox", "--disable-dev-shm-usage", "--remote-allow-origins=*");
-
-        driver = new ChromeDriver(options);
+        driver = new org.openqa.selenium.chrome.ChromeDriver();
         driver.manage().window().maximize();
-
-        Allure.step("Starting WebDriver in mode: " + mode);
     }
 
     @Test
-    @Description("Verify Google homepage title contains 'Google'")
+    @Epic("Google Testing")
+    @Feature("Search Feature")
+    @Story("Open Google Home Page")
+    @Description("Verify that Google loads and has the correct title")
     public void googleSearchTest() {
-        openPage("https://www.google.com");
-        String title = driver.getTitle();
-        Allure.step("Page title: " + title);
-        Assertions.assertTrue(title.contains("Google"), "Google title check failed!");
+        driver.get("https://www.google.com");
+        Allure.step("Opened Google homepage");
+        Assertions.assertTrue(driver.getTitle().contains("Google"), "Google title check failed!");
     }
 
     @Test
-    @Description("Verify Example.com title matches 'Example Domain'")
+    @Epic("Example Testing")
+    @Feature("Navigation Feature")
+    @Story("Open Example.com")
+    @Description("Verify that Example Domain loads and has the correct title")
     public void exampleDotComTest() {
-        openPage("https://example.com");
-        String title = driver.getTitle();
-        Allure.step("Page title: " + title);
-        Assertions.assertEquals("Example Domain", title, "Title did not match!");
+        driver.get("https://example.com");
+        Allure.step("Opened Example.com");
+        Assertions.assertEquals("Example Domain", driver.getTitle(), "Title did not match!");
     }
 
-    @Step("Open page {url}")
-    private void openPage(String url) {
-        driver.get(url);
+    @Attachment(value = "Screenshot", type = "image/png")
+    public byte[] takeScreenshot() {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
     @AfterEach
-    public void tearDown() {
+    public void tearDown(TestInfo testInfo) {
+        // take screenshot always (optional: only on failure)
+        takeScreenshot();
         if (driver != null) {
             driver.quit();
-            Allure.step("Closed WebDriver");
         }
     }
 }
