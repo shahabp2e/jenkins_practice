@@ -5,10 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 @ExtendWith(AllureJunit5.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SeleniumTest {
@@ -16,7 +12,7 @@ public class SeleniumTest {
     private WebDriver driver;
 
     @BeforeEach
-    public void setUp() throws IOException {
+    public void setUp() {
         ChromeOptions options = new ChromeOptions();
 
         // Read mode from system property (default = head)
@@ -32,10 +28,7 @@ public class SeleniumTest {
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
 
-        // ✅ Unique temp profile (fixes: "user data directory is already in use")
-        Path tempProfile = Files.createTempDirectory("chrome-profile-");
-        options.addArguments("--user-data-dir=" + tempProfile.toAbsolutePath());
-
+        // ❌ No --user-data-dir (prevents profile conflicts)
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
 
