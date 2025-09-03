@@ -16,7 +16,7 @@
         <junit.jupiter.version>5.10.2</junit.jupiter.version>
         <selenium.version>4.23.0</selenium.version>
         <webdrivermanager.version>5.9.2</webdrivermanager.version>
-        <allure.version>2.29.0</allure.version>
+        <allure.version>2.27.0</allure.version> <!-- use a stable version -->
         <allure.maven.plugin.version>2.12.0</allure.maven.plugin.version>
     </properties>
 
@@ -43,10 +43,18 @@
             <version>${webdrivermanager.version}</version>
         </dependency>
 
-        <!-- Allure JUnit 5 -->
+        <!-- Allure JUnit 5 Adapter -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
+            <version>${allure.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Allure + Selenium integration (for steps, screenshots, etc.) -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-selenium-java</artifactId>
             <version>${allure.version}</version>
             <scope>test</scope>
         </dependency>
@@ -65,7 +73,7 @@
                 </configuration>
             </plugin>
 
-            <!-- Surefire (JUnit 5 runs automatically with v3.x) -->
+            <!-- Surefire (JUnit 5) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
