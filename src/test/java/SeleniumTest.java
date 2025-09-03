@@ -32,9 +32,9 @@ public class SeleniumTest {
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
 
-        // ✅ Unique temp profile fix (prevents "user data directory is already in use")
-        Path tempProfile = Files.createTempDirectory("chrome-profile");
-        options.addArguments("--user-data-dir=" + tempProfile.toString());
+        // ✅ Unique temp profile (fixes: "user data directory is already in use")
+        Path tempProfile = Files.createTempDirectory("chrome-profile-");
+        options.addArguments("--user-data-dir=" + tempProfile.toAbsolutePath());
 
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
