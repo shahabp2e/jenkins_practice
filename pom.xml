@@ -65,7 +65,7 @@
                 </configuration>
             </plugin>
 
-            <!-- Surefire (JUnit 5 + Allure) -->
+            <!-- Surefire (JUnit 5 runs automatically with v3.x) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -78,18 +78,6 @@
                         </configurationParameters>
                     </properties>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>1.3.2</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>io.qameta.allure</groupId>
-                        <artifactId>allure-junit5</artifactId>
-                        <version>${allure.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <!-- Allure Maven Plugin -->
