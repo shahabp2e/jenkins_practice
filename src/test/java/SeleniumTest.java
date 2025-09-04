@@ -1,33 +1,29 @@
-package tests;
-
-import io.qameta.allure.testng.AllureTestNg;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.AfterClass;
+import io.qameta.allure.*;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
-@Listeners({AllureTestNg.class})
-public class LoginTest {
+public class GoogleTest {
 
     WebDriver driver;
 
-    @BeforeClass
-    public void setup() {
+    @BeforeEach
+    void setUp() {
+        WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
     }
 
     @Test
-    public void googleTitleTest() {
+    @Description("Verify Google title contains 'Google'")
+    @Severity(SeverityLevel.CRITICAL)
+    void googleTitleTest() {
         driver.get("https://www.google.com");
-        String title = driver.getTitle();
-        Assert.assertTrue(title.contains("Google"));
+        Assertions.assertTrue(driver.getTitle().contains("Google"));
     }
 
-    @AfterClass
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         if (driver != null) {
             driver.quit();
         }
