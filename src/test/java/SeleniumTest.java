@@ -1,32 +1,46 @@
-import io.qameta.allure.*;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SeleniumTest {
 
-    WebDriver driver;
+    private WebDriver driver;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() throws Exception {
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+
+        // Create unique Chrome profile for Jenkins run
+        Path tempProfile = Files.createTempDirectory("chrome-profile");
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new"); // headless for CI
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--user-data-dir=" + tempProfile.toAbsolutePath());
+
+        driver = new ChromeDriver(options);
     }
 
     @Test
-    @Description("Verify Google title contains 'Google'")
-    @Severity(SeverityLevel.CRITICAL)
-    void googleTitleTest() {
+    @Order(1)
+    public void googleTitleTest() {
         driver.get("https://www.google.com");
         Assertions.assertTrue(driver.getTitle().contains("Google"));
     }
 
     @AfterEach
-    void tearDown() {
+    public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
     }
 }
-
