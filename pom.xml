@@ -16,7 +16,7 @@
         <junit.jupiter.version>5.10.2</junit.jupiter.version>
         <selenium.version>4.23.0</selenium.version>
         <webdrivermanager.version>5.9.2</webdrivermanager.version>
-        <allure.version>2.27.0</allure.version> <!-- use a stable version -->
+        <allure.version>2.27.0</allure.version>
         <allure.maven.plugin.version>2.12.0</allure.maven.plugin.version>
     </properties>
 
@@ -89,15 +89,6 @@
                     <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
                     <reportDirectory>${project.build.directory}/site/allure-maven-plugin</reportDirectory>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>allure-report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
