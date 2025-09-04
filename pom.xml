@@ -86,9 +86,19 @@
                 <artifactId>allure-maven</artifactId>
                 <version>${allure.maven.plugin.version}</version>
                 <configuration>
-                    <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+                    <!-- ✅ Fix: point to correct folder -->
+                    <resultsDirectory>${project.basedir}/allure-results</resultsDirectory>
                     <reportDirectory>${project.build.directory}/site/allure-maven-plugin</reportDirectory>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>allure-report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
